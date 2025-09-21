@@ -8,4 +8,4 @@ const temperatureSchema = new mongoose.Schema({
   min_temp: { type: Number, required: true }
 });
 
-module.exports = mongoose.model('Temperature', temperatureSchema);
+module.exports = mongoose.model('Temperature', temperatureSchema,'Temperature');
