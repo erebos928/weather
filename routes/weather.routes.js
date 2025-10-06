@@ -4,7 +4,7 @@ const Temperature = require('../models/temperature');
 const weather = require('../controllers/weather.controller');
 
 // POST /weather
-router.post('/', weather.createTemprature);
+router.post('/add', weather.createTemprature);
 //
 router.post('/interval',weather.getTemperatures);
 // GET /weather
@@ -21,4 +21,6 @@ router.get('/', async (req, res) => {
   res.json(records);
 });
 router.post('/hottest',weather.getHottestCityRecord);
+router.post('/average',weather.getAverage);
+router.delete('/delete',weather.deleteRecord);
 module.exports = router;

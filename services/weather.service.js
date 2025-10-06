@@ -18,3 +18,14 @@ exports.getHottestCity = async (params) => {
   const record = await dao.getHottestCity(params.province,params.date);
   return record;
 };
+exports.getAverage = async (province,date)=>{
+  const result = await dao.getAverage(province,date)
+  if (result.length > 0)
+    return result[0]
+  else
+    return undefined
+};
+exports.deleteRecord = async (id)=>{
+  const result = await dao.deleteRecord(id)
+  return result
+  }

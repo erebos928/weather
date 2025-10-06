@@ -30,5 +30,19 @@ describe("save temperature", () => {
     expect(found).not.toBeNull();
     expect(found.city).toBe('Jabolgha');
   });
-
+test("average", async () => {
+    await tempDAO.saveTemperature(new temperature({max_temp:23,min_temp:9,city:'Monaco',province:'ON',date:'2025-04-24'}))
+    await tempDAO.saveTemperature(new temperature({max_temp:3,min_temp:-2,city:'Oakville',province:'ON',date:'2025-04-24'}))
+    await tempDAO.saveTemperature(new temperature({max_temp:13,min_temp:12,city:'Quebec',province:'QC',date:'2025-04-24'}))
+    const avs = await tempDAO.getAverage("ON","2025-04-24")
+    expect(avs).not.toBeNull();
+    expect(avs.length).toBeGreaterThan(0)
+    expect(avs[0].min_avg).toBe(3.5);
+  });
+test("delete", async () => {
+    const result = await tempDAO.saveTemperature(new temperature({max_temp:23,min_temp:9,city:'Monaco',province:'ON',date:'2025-04-24'}))
+    const delResult = await tempDAO.deleteRecord(result._id)
+    expect(delResult).not.toBeNull();
+    expect(delResult.deletedCount).toBe(1);
+  });  
 });

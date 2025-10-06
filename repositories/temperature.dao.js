@@ -19,3 +19,20 @@ exports.getHottestCity = async (province,date) => {
         throw error;
     }
 };
+exports.getAverage = async (province,date) =>{
+    const matchStage = { $match: { date: date,province:province } }
+    const groupStage = {$group:{_id:null,min_avg:{$avg:'$min_temp'}}}
+    try{
+    const averageObject = await temperature.aggregate(
+            [matchStage,groupStage]
+  )
+  return averageObject
+}catch(error){
+    console.log(error)
+    throw error
+}
+}
+exports.deleteRecord = async (id) =>{
+    const result = await Temperature.deleteOne({_id:id})
+    return result;
+}

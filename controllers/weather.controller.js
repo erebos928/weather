@@ -25,3 +25,22 @@ exports.getHottestCityRecord = async (req,res) =>{
             res.status(500).json({message:error.message});
         }
 };
+exports.getAverage = async (req,res) =>{
+       try{
+        const province = req.body.province;
+        const date = req.body.date;
+        const averageProvinceRecord = await weatherService.getAverage(province, date);
+        res.status(200).json(averageProvinceRecord);
+       }catch(error){
+            res.status(500).json({message:error.message});
+        }
+};
+exports.deleteRecord = async (req,res) =>{
+       try{
+        const id = req.body.id;
+        const result = await weatherService.deleteRecord(id);
+        res.status(200).json(result);
+       }catch(error){
+            res.status(500).json({message:error.message});
+        }
+};
