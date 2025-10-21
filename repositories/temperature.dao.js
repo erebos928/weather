@@ -2,7 +2,6 @@ const temperature = require("../models/temperature");
 const Temperature = require("../models/temperature");
 exports.saveTemperature= async (temperature) =>{
     const result = await temperature.save();
-    console.log('Saved successfully.');
     return result;
 };
 exports.getHottestCity = async (province,date) => {
