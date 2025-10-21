@@ -1,0 +1,5 @@
+== Info: WARNING: failed to open cookie file "/tmp/jenkins_cookies"
+== Info: Could not resolve host: POST
+== Info: shutting down connection #0
+== Info: URL rejected: Malformed input to a URL function
+== Info: closing connection #-1

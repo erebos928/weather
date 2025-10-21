@@ -1,0 +1,15 @@
+#!/bin/bash
+JENKINS_URL="http://localhost:8080"
+JENKINS_USER="behrooz"
+JENKINS_API_TOKEN="Hashemkhan1$"  # or password, preferably API token
+JOB_NAME="Volcano"
+COOKIE_FILE="/tmp/jenkins_cookies"
+# Acquire crumb and session cookie
+CRUMB_JSON=$(curl -s -u "${JENKINS_USER}:${JENKINS_API_TOKEN}" --cookie-jar $COOKIE_FILE \
+  "${JENKINS_URL}/crumbIssuer/api/json")
+CRUMB=$(echo $CRUMB_JSON | jq -r '.crumb')
+CRUMB_FIELD=$(echo $CRUMB_JSON | jq -r '.crumbRequestField')
+# Trigger the Jenkins build with crumb and cookie
+curl -X POST -u "${JENKINS_USER}:${JENKINS_API_TOKEN}" --cookie $COOKIE_FILE \
+  -H "${CRUMB_FIELD}: ${CRUMB}" \
+  "${JENKINS_URL}/job/${JOB_NAME}/build"
