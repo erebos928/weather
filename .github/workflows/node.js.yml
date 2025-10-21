@@ -27,4 +27,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm install jest
+    - name: Grant Execute Permission to Jest Binary 🛠️
+      run: chmod u+x node_modules/.bin/jest
     - run: npm test
