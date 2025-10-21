@@ -1,0 +1,695 @@
+{
+	"info": {
+		"_postman_id": "ea9de1e3-546d-4a5c-bd6e-88185d8286f9",
+		"name": "Collection 1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7074261"
+	},
+	"item": [
+		{
+			"name": "Create new weather record",
+			"item": [
+				{
+					"name": "http://localhost:3000/weather/add",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Should return a object\", function () {\r",
+									"    pm.expect(response, 'The response is not an object').to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return newly created temperature\", function () {\r",
+									"    pm.expect(response.province, 'The response is not the created temperature').to.be.a('string');\r",
+									"});\r",
+									"pm.test(\"Should return newly created temperature id\", function () {\r",
+									"    const response = pm.response.json();\r",
+									"    if (response._id)\r",
+									"        pm.collectionVariables.set('temperatureId',response._id)\r",
+									"    else\r",
+									"        pm.test('test failed not have id',false)\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "date",
+									"value": "2025-10-04",
+									"type": "text"
+								},
+								{
+									"key": "max_temp",
+									"value": "13",
+									"type": "text"
+								},
+								{
+									"key": "min_temp",
+									"value": "-2",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Vulugulo",
+									"type": "text"
+								},
+								{
+									"key": "province",
+									"value": "XXX",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/weather/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"add"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "http://localhost:3000/weather",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "2025-10-04",
+											"type": "text"
+										},
+										{
+											"key": "max_temp",
+											"value": "13",
+											"type": "text"
+										},
+										{
+											"key": "min_temp",
+											"value": "-2",
+											"type": "text"
+										},
+										{
+											"key": "city",
+											"value": "Vulugulo",
+											"type": "text"
+										},
+										{
+											"key": "province",
+											"value": "XXX",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/weather",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"weather"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "125"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"7d-ym2SxeMbYL7kz8k3SloTmrDs+QY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Oct 2025 16:03:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"date\": \"2025-10-04\",\n    \"city\": \"Vulugulo\",\n    \"province\": \"XXX\",\n    \"max_temp\": 13,\n    \"min_temp\": -2,\n    \"_id\": \"68e296b4f38853c7a82b1ca3\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "http://localhost:3000/weather teardown",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.test('check result',()=>{\r",
+									"    pm.expect(response).to.have.property('acknowledged');\r",
+									"    pm.expect(response.deletedCount).to.be.eq(1);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{temperatureId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/weather/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Hottest city in a province on a date",
+			"item": [
+				{
+					"name": "http://localhost:3000/weather/add zz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let response = pm.response;\r",
+									"let responseData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Should return a object\", function () {\r",
+									"    pm.expect(response, 'The response is not an object').to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return newly created temperature\", function () {\r",
+									"    pm.expect(responseData.province, 'The response province is ').to.be.eq('XXX');\r",
+									"});\r",
+									"pm.test(\"Should return newly created temperature id\", function () {\r",
+									"    if (responseData._id)\r",
+									"        pm.collectionVariables.set('zzId',responseData._id)\r",
+									"    else\r",
+									"        pm.test('test failed not have id',false)\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "date",
+									"value": "1990-01-01",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "zzz",
+									"type": "text"
+								},
+								{
+									"key": "province",
+									"value": "XXX",
+									"type": "text"
+								},
+								{
+									"key": "min_temp",
+									"value": "-120",
+									"type": "text"
+								},
+								{
+									"key": "max_temp",
+									"value": "120",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/weather/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/weather/add yy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseData = pm.response.json();\r",
+									"let response = pm.response;\r",
+									"pm.test(\"Should return a object\", function () {\r",
+									"    pm.expect(response, 'The response is not an object').to.be.an('object');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Should return newly created temperature\", function () {\r",
+									"    pm.expect(responseData.province, 'The response province is XXX').to.be.eq('XXX');\r",
+									"});\r",
+									"pm.test(\"Should return newly created temperature id\", function () {\r",
+									"    if (responseData._id)\r",
+									"        pm.collectionVariables.set('yyId',responseData._id)\r",
+									"    else\r",
+									"        pm.test('test failed not have id',false)\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "date",
+									"value": "1990-01-01",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "yyy",
+									"type": "text"
+								},
+								{
+									"key": "province",
+									"value": "XXX",
+									"type": "text"
+								},
+								{
+									"key": "min_temp",
+									"value": "-121",
+									"type": "text"
+								},
+								{
+									"key": "max_temp",
+									"value": "121",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/weather/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/weather/hottest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('hottest city received',()=>{\r",
+									"    const response = pm.response;\r",
+									"    const responseData = response.json();\r",
+									"    pm.expect(responseData).is.a('object');\r",
+									"    pm.expect(responseData.city).is.eq('yyy');\r",
+									"    pm.expect(responseData.province).is.eq('XXX')\r",
+									"    pm.expect(responseData.max_temp).is.eq(121);\r",
+									"}\r",
+									")"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "date",
+									"value": "1990-01-01",
+									"type": "text"
+								},
+								{
+									"key": "province",
+									"value": "XXX",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/weather/hottest",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"hottest"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "hottest",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "date",
+											"value": "2025-04-02",
+											"type": "text"
+										},
+										{
+											"key": "province",
+											"value": "ON",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:3000/weather/hottest",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"weather",
+										"hottest"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "116"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"74-fETsHczeejW71FjlnPnyqusNUG0\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 05 Oct 2025 22:01:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"68a4f22e42d7814328bb99a3\",\n    \"date\": \"2025-04-02\",\n    \"city\": \"Oakville\",\n    \"province\": \"ON\",\n    \"min_temp\": 14,\n    \"max_temp\": 42\n}"
+						}
+					]
+				},
+				{
+					"name": "http://localhost:3000/weather teardown zz",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"pm.test('check result',()=>{\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.have.property('acknowledged');\r",
+									"    pm.expect(responseData.deletedCount).to.be.eq(1);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{zzId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/weather/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://localhost:3000/weather teardown yy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response;\r",
+									"pm.test('check result',()=>{\r",
+									"    const responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.have.property('acknowledged');\r",
+									"    pm.expect(responseData.deletedCount).to.be.eq(1);\r",
+									"})"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "id",
+									"value": "{{yyId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:3000/weather/delete",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"weather",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "http://localhost:3000/weather/interval",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/weather/interval",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"weather",
+						"interval"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/weather/average",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "date",
+							"value": "2025-04-24",
+							"type": "text"
+						},
+						{
+							"key": "province",
+							"value": "ON",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/weather/average",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"weather",
+						"average"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "temperatureId",
+			"value": ""
+		},
+		{
+			"key": "zzId",
+			"value": ""
+		},
+		{
+			"key": "yyId",
+			"value": ""
+		}
+	]
+}
